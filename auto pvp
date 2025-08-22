@@ -1,0 +1,28 @@
+-- Активируйте этот скрипт через инжектор (Synapse, ScriptWare, Krnl и т.д.)
+local Players = game:GetService("Players")
+local RunService = game:GetService("RunService")
+
+local player = Players.LocalPlayer
+local targetPosition = Vector3.new(990.439697265625, 19.559640884399414, -2944.927001953125)
+
+-- Функция для безопасной телепортации
+local function teleportToPosition()
+    local character = player.Character
+    if character and character:FindFirstChild("HumanoidRootPart") then
+        local humanoidRootPart = character.HumanoidRootPart
+        
+        -- Телепортируем без изменения ориентации камеры
+        humanoidRootPart.CFrame = CFrame.new(targetPosition)
+        
+        -- Небольшая задержка для стабилизации
+        wait(0.1)
+    end
+end
+
+-- Постоянная телепортация
+while true do
+    pcall(function() -- Обработка ошибок
+        teleportToPosition()
+    end)
+    wait(0.1) -- Телепортация каждые 0.1 секунды
+end
