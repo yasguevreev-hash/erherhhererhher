@@ -1,0 +1,45 @@
+local Players = game:GetService("Players")
+local player = Players.LocalPlayer
+
+local teleportPosition = Vector3.new(1024.673583984375, 19.559640884399414, -2945.2490234375)
+
+-- Функция для мгновенного убийства персонажа
+local function killInstantly()
+    pcall(function()
+        local character = player.Character
+        if character then
+            local humanoid = character:FindFirstChild("Humanoid")
+            if humanoid then
+                humanoid.Health = 0
+                humanoid:TakeDamage(9999)
+            end
+        end
+    end)
+end
+
+while true do
+    pcall(function()
+        -- Ждем пока персонаж появится и будет жив
+        local character = player.Character
+        if character and character:FindFirstChild("HumanoidRootPart") then
+            local humanoid = character:FindFirstChild("Humanoid")
+            if humanoid and humanoid.Health > 0 then
+                
+                -- Телепортируем в точку
+                character.HumanoidRootPart.CFrame = CFrame.new(teleportPosition)
+                print("✅ Телепортирован в точку")
+                
+                -- Ждем 4 секунды
+                wait(4)
+                
+                -- Мгновенно убиваем
+                killInstantly()
+                print("💀 Персонаж убит")
+                
+            end
+        end
+    end)
+    
+    -- Ждем следующего цикла
+    wait(1)
+end
